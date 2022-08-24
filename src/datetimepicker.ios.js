@@ -64,9 +64,9 @@ export default function Picker({
   const [heightStyle, setHeightStyle] = React.useState(undefined);
   const _picker: NativeRef = React.useRef(null);
   const display = getDisplaySafe(providedDisplay);
-  const [hasLoaded, setHasLoaded] = useState(false)
+  const [hasLoaded, setHasLoaded] = React.useState(false)
 
-  useEffect(() => {
+  React.useEffect(() => {
     setTimeout(() => {
       setHasLoaded(true)
     }, 100)
@@ -118,8 +118,6 @@ export default function Picker({
 
   const dates: DatePickerOptions = {value, maximumDate, minimumDate};
   toMilliseconds(dates, 'value', 'minimumDate', 'maximumDate');
-  
-  console.log('fffooooooobaaaaar.')
 
   return (
     // $FlowFixMe - dozen of flow errors
