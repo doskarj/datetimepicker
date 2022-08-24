@@ -64,6 +64,13 @@ export default function Picker({
   const [heightStyle, setHeightStyle] = React.useState(undefined);
   const _picker: NativeRef = React.useRef(null);
   const display = getDisplaySafe(providedDisplay);
+  const [hasLoaded, setHasLoaded] = useState(false)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setHasLoaded(true)
+    }, 100)
+  }, [])
 
   React.useEffect(
     function ensureNativeIsInSyncWithJS() {
@@ -120,7 +127,7 @@ export default function Picker({
       testID={testID}
       ref={_picker}
       style={StyleSheet.compose(heightStyle, style)}
-      date={dates.value}
+      date={hasLoaded ? dates.value : new Date(0, 0, 0, 0, 1, 5)}
       locale={locale !== null && locale !== '' ? locale : undefined}
       maximumDate={dates.maximumDate}
       minimumDate={dates.minimumDate}
