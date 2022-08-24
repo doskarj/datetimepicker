@@ -111,6 +111,8 @@ export default function Picker({
 
   const dates: DatePickerOptions = {value, maximumDate, minimumDate};
   toMilliseconds(dates, 'value', 'minimumDate', 'maximumDate');
+  
+  console.log('fffooooooobaaaaar.')
 
   return (
     // $FlowFixMe - dozen of flow errors
