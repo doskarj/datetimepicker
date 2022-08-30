@@ -9,22 +9,18 @@
  * @format
  * @flow strict-local
  */
-import RNDateTimePicker from './picker';
-import {sharedPropsValidation, toMilliseconds} from './utils';
-import {IOS_DISPLAY, ANDROID_MODE, EVENT_TYPE_SET} from './constants';
 import invariant from 'invariant';
 import * as React from 'react';
-import {getPickerHeightStyle} from './layoutUtilsIOS';
-import {Platform, StyleSheet} from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
+import { ANDROID_MODE, EVENT_TYPE_SET, IOS_DISPLAY } from './constants';
+import { getPickerHeightStyle } from './layoutUtilsIOS';
+import RNDateTimePicker from './picker';
+import { sharedPropsValidation, toMilliseconds } from './utils';
 
 import type {
-  NativeEventIOS,
-  NativeRef,
-  IOSNativeProps,
-  DatePickerOptions,
-  IOSDisplay,
+  DatePickerOptions, DateTimePickerEvent, IOSDisplay, IOSNativeProps, NativeEventIOS,
+  NativeRef
 } from './types';
-import type {DateTimePickerEvent} from './types';
 
 const getDisplaySafe = (display: IOSDisplay): IOSDisplay => {
   const majorVersionIOS = parseInt(Platform.Version, 10);
@@ -58,6 +54,7 @@ export default function Picker({
   mode = ANDROID_MODE.date,
   display: providedDisplay = IOS_DISPLAY.default,
   disabled = false,
+  Element = null
 }: IOSNativeProps): React.Node {
   sharedPropsValidation({value});
 
@@ -118,6 +115,29 @@ export default function Picker({
 
   const dates: DatePickerOptions = {value, maximumDate, minimumDate};
   toMilliseconds(dates, 'value', 'minimumDate', 'maximumDate');
+
+  if (Element) {
+    return (<Element 
+      testID={testID}
+      ref={_picker}
+      style={StyleSheet.compose(heightStyle, style)}
+      date={hasLoaded ? dates.value : new Date(0, 0, 0, 0, 1, 5)}
+      locale={locale !== null && locale !== '' ? locale : undefined}
+      maximumDate={dates.maximumDate}
+      minimumDate={dates.minimumDate}
+      mode={mode}
+      minuteInterval={minuteInterval}
+      timeZoneOffsetInMinutes={timeZoneOffsetInMinutes}
+      onChange={_onChange}
+      textColor={textColor}
+      accentColor={accentColor}
+      themeVariant={themeVariant}
+      onStartShouldSetResponder={() => true}
+      onResponderTerminationRequest={() => false}
+      displayIOS={display}
+      enabled={disabled !== true}>
+    </Element>);
+  }
 
   return (
     // $FlowFixMe - dozen of flow errors
