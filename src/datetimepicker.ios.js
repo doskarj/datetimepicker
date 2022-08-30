@@ -119,7 +119,6 @@ export default function Picker({
   if (Element) {
     return (<Element 
       testID={testID}
-      ref={_picker}
       style={StyleSheet.compose(heightStyle, style)}
       date={hasLoaded ? dates.value : new Date(0, 0, 0, 0, 1, 5)}
       locale={locale !== null && locale !== '' ? locale : undefined}
